@@ -7,22 +7,10 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f9;
-            margin: 0;
             padding: 30px;
         }
 
         h2 {
-            margin-bottom: 20px;
-        }
-
-        .back-btn {
-            padding: 8px 14px;
-            background: #343a40;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            display: inline-block;
             margin-bottom: 20px;
         }
 
@@ -34,6 +22,7 @@
             display: flex;
             align-items: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            position: relative;
             transition: 0.2s;
         }
 
@@ -55,17 +44,8 @@
             font-weight: bold;
         }
 
-        .date-box span:first-child {
-            font-size: 18px;
-        }
-
-        .date-box span:last-child {
-            font-size: 14px;
-        }
-
         .info h4 {
             margin: 0;
-            margin-bottom: 5px;
         }
 
         .info p {
@@ -73,10 +53,34 @@
             color: gray;
         }
 
-        .empty {
-            text-align: center;
-            padding: 30px;
-            color: gray;
+        /* 🔥 Ẩn action mặc định */
+        .actions {
+            position: absolute;
+            right: 20px;
+            bottom: 15px;
+            display: none;
+        }
+
+        /* 🔥 Hover mới hiện */
+        .card:hover .actions {
+            display: block;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        .edit-btn {
+            background: #6c757d;
+        }
+
+        .delete-btn {
+            background: #dc3545;
         }
     </style>
 </head>
@@ -84,12 +88,6 @@
 <body>
 
 <h2>📅 Upcoming Courses</h2>
-
-<a href="/courses" class="back-btn">← Back</a>
-
-<div th:if="${#lists.isEmpty(courses)}" class="empty">
-    No upcoming courses.
-</div>
 
 <div th:each="c : ${courses}" class="card">
 
@@ -102,6 +100,14 @@
         <h4 th:text="${c.lectureName}"></h4>
         <p th:text="${c.categoryName}"></p>
         <p th:text="${#temporals.format(c.startDate,'dd/MM/yyyy HH:mm')}"></p>
+    </div>
+
+    <!-- 🔥 Edit Delete -->
+    <div class="actions">
+        <a th:href="@{/courses/edit/{id}(id=${c.id})}" class="btn edit-btn">Edit</a>
+        <a th:href="@{/courses/delete/{id}(id=${c.id})}"
+           onclick="return confirm('Are you sure?')"
+           class="btn delete-btn">Delete</a>
     </div>
 
 </div>
