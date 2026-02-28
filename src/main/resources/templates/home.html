@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Course List</title>
+
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 30px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .top-bar {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 10px;
+        display: inline-block;
+    }
+
+    .btn-add {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-upcoming {
+        background: #007bff;
+        color: white;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    th {
+        background: #343a40;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+        background: #f1f1f1;
+    }
+
+    .action a {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .edit-btn {
+        background: #ffc107;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 30px;
+        color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>📚 Course List</h2>
+
+<div class="top-bar">
+  <a href="/courses/create" class="btn btn-add">+ Add Course</a>
+  <a href="/courses/upcoming" class="btn btn-upcoming">Upcoming</a>
+</div>
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>Lecture</th>
+    <th>Place</th>
+    <th>Category</th>
+    <th>Start Date</th>
+    <th>Action</th>
+  </tr>
+
+  <tr th:if="${#lists.isEmpty(courses)}">
+    <td colspan="6" class="empty">No courses found.</td>
+  </tr>
+
+  <tr th:each="c, stat : ${courses}">
+    <td th:text="${stat.count}"></td>
+    <td th:text="${c.lectureName}"></td>
+    <td th:text="${c.place}"></td>
+    <td th:text="${c.categoryName}"></td>
+    <td th:text="${#temporals.format(c.startDate,'dd/MM/yyyy HH:mm')}"></td>
+    <td class="action">
+      <a th:href="@{/courses/edit/{id}(id=${c.id})}" class="edit-btn">Edit</a>
+      <a th:href="@{/courses/delete/{id}(id=${c.id})}"
+         onclick="return confirm('Are you sure?')"
+         class="delete-btn">Delete</a>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upcoming Courses</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            padding: 8px 14px;
+            background: #343a40;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .date-box {
+            background: #dc3545;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            text-align: center;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .date-box span:first-child {
+            font-size: 18px;
+        }
+
+        .date-box span:last-child {
+            font-size: 14px;
+        }
+
+        .info h4 {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        .info p {
+            margin: 0;
+            color: gray;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📅 Upcoming Courses</h2>
+
+<a href="/courses" class="back-btn">← Back</a>
+
+<div th:if="${#lists.isEmpty(courses)}" class="empty">
+    No upcoming courses.
+</div>
+
+<div th:each="c : ${courses}" class="card">
+
+    <div class="date-box">
+        <span th:text="${#temporals.format(c.startDate,'dd')}"></span>
+        <span th:text="${#temporals.format(c.startDate,'MM')}"></span>
+    </div>
+
+    <div class="info">
+        <h4 th:text="${c.lectureName}"></h4>
+        <p th:text="${c.categoryName}"></p>
+        <p th:text="${#temporals.format(c.startDate,'dd/MM/yyyy HH:mm')}"></p>
+    </div>
+
+</div>
+
+</body>
+</html>
